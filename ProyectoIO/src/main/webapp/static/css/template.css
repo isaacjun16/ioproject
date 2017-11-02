@@ -1,0 +1,24 @@
+.table-responsive table thead th:first-child,
+.table-responsive table thead th:last-child { width: 15%; }
+
+.table-responsive table tbody td { position: relative; }
+
+.table-responsive table tbody td input[type="number"] {
+	position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    border-right: none;
+    border-top: none;
+    border-left: 1px solid rgba(82,168,236,.8);
+    border-bottom: 1px solid rgba(82,168,236,.8);
+    box-shadow: -1px 1px 8px rgba(82,168,236,.6);
+}
+
+.table-responsive table tbody td input.readonly[type="number"] {
+	background-color: #eee;
+	cursor: not-allowed;
+	border-color: #eee;
+	box-shadow: none;
+}    
+    
