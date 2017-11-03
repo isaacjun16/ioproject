@@ -1,8 +1,58 @@
-var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 
+	'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+function globalLoading(mode){
+	switch(mode){
+		case 0:
+			$("#GlobalLoadingHolder").css("display", "none");
+		break;
+		case 1:
+			$("#GlobalLoadingHolder").css("display", "block");
+		break;
+		default:
+		break;
+	}
+}
 
 $(document).ready(function() {
 	$('#FormTransport').validator().on('submit', function(e) {
 		e.preventDefault();
+		
+		var submitForm = true;
+		if($('Tabla').has('input.precioCero')) {
+			submitForm = confirm("No ha ingresado todos los costos de la tabla, desea enviarlo asi?");
+		}
+		
+		if(submitForm){
+			var oferta = JSON.stringify($('#Oferta').val().split(","));
+			var demanda = JSON.stringify($('#Demanda').val().split(","));
+			var metodo = $('#Metodo').val();
+			var precios = JSON.stringify($("#TablaCostosDiv :input").serializeArray());
+			
+			$.ajax({
+				type: "POST",
+				url: "resolverproblema",
+				dataType: "html",
+				data: { 
+					oferta: oferta, 
+					demanda: demanda,
+					metodo: metodo,
+					precios: precios
+				},
+				success: function(data){
+					globalLoading(0);
+					console.log(data);
+					$("#TablaResultado").html(data);
+				},
+				error: function(error){
+					globalLoading(0);
+					console.log(error);
+				},
+			    complete: function(xhr, textStatus) {
+			    	
+			    }
+			});
+		}
 		
 	});
 	
@@ -27,9 +77,11 @@ $(document).ready(function() {
 				var cuadreDemanda = false;
 				if(ofertatotal > demandatotal) {
 					demanda.push(ofertatotal - demandatotal);
+					$('#Demanda').val($('#Demanda').val() + ',' + (ofertatotal - demandatotal));
 					cuadreDemanda = true;
 				} else if(ofertatotal < demandatotal) {
 					oferta.push(demandatotal - ofertatotal);
+					$('#Oferta').val($('#Oferta').val()+ ',' + (demandatotal - ofertatotal));
 					cuadreOferta = true;
 				}
 				
@@ -43,7 +95,9 @@ $(document).ready(function() {
 				var tfoot = document.createElement('TFOOT');
 				
 				var trHead = document.createElement('TR');
-				trHead.appendChild(document.createElement('TH'));
+				var thHeadEmpty = document.createElement('TH');
+				thHeadEmpty.setAttribute("style", "width: 15%;");
+				trHead.appendChild(thHeadEmpty);
 				var trFoot = document.createElement('TR');
 				var thTituloDemanda = document.createElement('TH');
 				thTituloDemanda.innerHTML = "Demanda";
@@ -59,6 +113,7 @@ $(document).ready(function() {
 				}
 				var thTituloOferta = document.createElement('TH');
 				thTituloOferta.innerHTML = "Oferta";
+				thTituloOferta.setAttribute("style", "width: 16%;");
 				trHead.appendChild(thTituloOferta);
 				thead.appendChild(trHead);
 				trFoot.appendChild(document.createElement('TH'));
@@ -73,9 +128,9 @@ $(document).ready(function() {
 						var tdBody = document.createElement('TD');
 						if((cuadreDemanda && (col + 1) == demanda.length) ||
 								(cuadreOferta && (row + 1 == oferta.length))) {
-							tdBody.innerHTML = '<input type="number" name="precio' + row + '[]" value="0" readonly class="readonly"/>';
+							tdBody.innerHTML = '<input type="number" name="precio[' + row + '][' + col + ']" value="0" readonly class="readonly"/>';
 						} else {
-							tdBody.innerHTML = '<input type="number" name="precio' + row + '[]" value="0"/>';
+							tdBody.innerHTML = '<input type="number" name="precio[' + row + '][' + col + ']" value="0" class="precioCero" onchange="this.className = \'precioIngresado\'"/>';
 						}
 						
 						trBody.appendChild(tdBody);

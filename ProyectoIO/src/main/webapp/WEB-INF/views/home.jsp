@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="func" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html">
@@ -22,6 +21,9 @@
 
 </head>
 <body>
+	<div id="GlobalLoadingHolder" class="global-loading-holder">
+		<div class="global-loading"></div>
+	</div>
 	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -44,12 +46,11 @@
 					<input id="Demanda" name="demanda" type="text" class="form-control" placeholder="Demanda" required="required" pattern="^[0-9]+((,[0-9]+))+?$" title="Demanda"/>
 				</div>
 				<div class="form-group">
-					<select class="form-control" required="required">
+					<select id="Metodo" name="metodo" class="form-control" required="required">
 						<option value="">Elija un metodo de resolución</option>
 						<option value="1">Esquina Noroeste</option>
 						<option value="2">Costos Mínimos</option>
 						<option value="3">Aproximación de Voguel</option>
-						<option value="4">Otro</option>
 					</select>
 				</div>
 				<button type="submit" class="btn btn-default">Submit</button>
@@ -57,12 +58,15 @@
 		</div>
 	</div>
 	</nav>
-	<div>
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
 				<div id="TablaCostosDiv" class="table-responsive">
 				</div>
 			</div>
+		</div>
+		<div id="TablaResultado" class="row">
+			
 		</div>
 	</div>
 </body>
