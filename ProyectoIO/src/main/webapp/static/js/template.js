@@ -15,12 +15,28 @@ function globalLoading(mode){
 }
 
 $(document).ready(function() {
+	$('.limpiarAreaTrabajo').on('click', function(e) {
+		$('#FormTransport')[0].reset();
+		$('#TablaCostosDiv, #TablaResultado').html("");
+		
+	});
+	
 	$('#FormTransport').validator().on('submit', function(e) {
 		e.preventDefault();
 		
 		var submitForm = true;
-		if($('Tabla').has('input.precioCero')) {
+		if($('#TablaCostosDiv').has('input.precioCero').length != 0) {
 			submitForm = confirm("No ha ingresado todos los costos de la tabla, desea enviarlo asi?");
+		}
+		
+		var emptyValue = false;
+		$('#TablaCostosDiv input.precioIngresado').each(function(index) {
+			if($(this).val() == "") emptyValue = true;
+		});
+		
+		if(emptyValue){
+			submitForm = false;
+			alert("Existen campos de Precio vacios");
 		}
 		
 		if(submitForm){
@@ -130,7 +146,7 @@ $(document).ready(function() {
 								(cuadreOferta && (row + 1 == oferta.length))) {
 							tdBody.innerHTML = '<input type="number" name="precio[' + row + '][' + col + ']" value="0" readonly class="readonly"/>';
 						} else {
-							tdBody.innerHTML = '<input type="number" name="precio[' + row + '][' + col + ']" value="0" class="precioCero" onchange="this.className = \'precioIngresado\'"/>';
+							tdBody.innerHTML = '<input type="number" name="precio[' + row + '][' + col + ']" value="0" min="0" class="precioCero" onchange="this.className = \'precioIngresado\'"/>';
 						}
 						
 						trBody.appendChild(tdBody);

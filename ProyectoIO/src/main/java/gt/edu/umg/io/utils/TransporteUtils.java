@@ -1,12 +1,15 @@
 package gt.edu.umg.io.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import gt.edu.umg.io.dto.TransporteRequest;
+import gt.edu.umg.io.dto.UnidadPrecioDto;
 
 public class TransporteUtils {
 
@@ -45,5 +48,29 @@ public class TransporteUtils {
 		resultado.setPrecios(precios);
 		
 		return resultado;
+	}
+	
+	public static List<Integer> clonearLista(List<Integer> lista) { 
+		int[] clone = new int[lista.size()];
+		for(int i = 0; i < lista.size(); i++) {
+			clone[i] = lista.get(i);
+		}
+		
+		return Arrays.asList(ArrayUtils.toObject(clone));
+	}
+	
+	public static List<UnidadPrecioDto> generarListaUnidadesPrecios(int ofertaSize, int demandaSize, int[][] unidades, Double[][] precios) {
+		List<UnidadPrecioDto> unidadesPrecios = new ArrayList<>();
+		for(int row = 0; row < ofertaSize; row++) {
+			for(int col = 0; col < demandaSize; col++) {
+				if(unidades[row][col] != 0) {
+					UnidadPrecioDto elemento = new UnidadPrecioDto();
+					elemento.setUnidad(unidades[row][col]);
+					elemento.setPrecio(precios[row][col]);
+					unidadesPrecios.add(elemento);
+				}
+			}
+		}
+		return unidadesPrecios;
 	}
 }

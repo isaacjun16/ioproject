@@ -6,6 +6,7 @@ public class TransporteResponse {
 
 	private String[] titulos;
 	private List<TransportePasos> pasos;
+	private List<UnidadPrecioDto> unidadesPrecios;
 
 	public String[] getTitulos() {
 		return titulos;
@@ -21,5 +22,13 @@ public class TransporteResponse {
 
 	public void setPasos(List<TransportePasos> pasos) {
 		this.pasos = pasos;
+	}
+
+	public List<UnidadPrecioDto> getUnidadesPrecios() {
+		return unidadesPrecios;
+	}
+
+	public void setUnidadesPrecios(List<UnidadPrecioDto> unidadesPrecios) {
+		this.unidadesPrecios = unidadesPrecios;
 	}
 }

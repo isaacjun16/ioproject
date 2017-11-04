@@ -40,10 +40,10 @@
 			id="bs-example-navbar-collapse-2">
 			<form id="FormTransport" class="navbar-form navbar-left">
 				<div class="form-group">
-					<input id="Oferta" name="oferta" type="text" class="form-control" placeholder="Oferta" required="required" pattern="^[0-9]+((,[0-9]+))+?$" title="Oferta"/>
+					<input id="Oferta" name="oferta" type="text" class="form-control" placeholder="Oferta Ej: 2,3,4" required="required" pattern="^[0-9]+((,[0-9]+))+?$" title="Oferta"/>
 				</div>
 				<div class="form-group">
-					<input id="Demanda" name="demanda" type="text" class="form-control" placeholder="Demanda" required="required" pattern="^[0-9]+((,[0-9]+))+?$" title="Demanda"/>
+					<input id="Demanda" name="demanda" type="text" class="form-control" placeholder="Demanda Ej: 2,3,4" required="required" pattern="^[0-9]+((,[0-9]+))+?$" title="Demanda"/>
 				</div>
 				<div class="form-group">
 					<select id="Metodo" name="metodo" class="form-control" required="required">
@@ -53,7 +53,8 @@
 						<option value="3">Aproximación de Voguel</option>
 					</select>
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="submit" class="btn btn-default">Resolver</button>
+				<button type="button" class="btn btn-warning limpiarAreaTrabajo">Limpiar</button>
 			</form>
 		</div>
 	</div>
